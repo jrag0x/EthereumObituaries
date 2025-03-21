@@ -27,7 +27,7 @@ To run this project locally:
 
 1. Clone the repository:
 ```
-git clone https://github.com/jragosa/EthereumObituaries.git
+git clone https://github.com/jrag0x/EthereumObituaries.git
 cd EthereumObituaries
 ```
 

@@ -34,7 +34,7 @@ We appreciate your interest in contributing to the Ethereum Obituaries project. 
 7. Commit your changes and push to your forked repository.
 8. Create a Pull Request (PR) to the main repository.
 
-**Or if you are lazy, ping me on X (@jimmyragosa), so that I can do it for you.**
+**Or if you are lazy, ping me on X (@Jrag0x), so that I can do it for you.**
 
 ## Part 2: Contributing to the Website
 We welcome contributions to improve the Ethereum Obituaries website. Here's how you can contribute:
