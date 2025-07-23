@@ -558,15 +558,6 @@
       "isWebpageUp": true
     },
     {
-      "date": "2021-11-21",
-      "statement": "Yes I have abandoned Ethereum",
-      "author": "Zhu Su",
-      "source": "Twitter",
-      "link": "https://twitter.com/zhusu/status/1462216210116853762",
-      "archivalLink": "https://i.imgur.com/BJQdWLq.png",
-      "isWebpageUp": true
-    },
-    {
       "date": "2021-12-31",
       "statement": "Why I'm bearish on Ethereum",
       "author": "Natascha Che",
@@ -980,6 +971,15 @@
     "archivalLink": "https://i.imgur.com/7trK2py.png",
     "isWebpageUp": true
   },
+    {
+      "date": "2024-11-18",
+      "statement": "Solana will flip Ethereum in every metric.",
+      "author": "Joe McCann",
+      "source": "X",
+      "link": "https://x.com/joemccann/status/1858493985162961186",
+      "archivalLink": "https://imgur.com/a/eOtq1vi",
+      "isWebpageUp": true
+    },
   {
   "date": "2024-11-21",
   "statement": "Ethereum doesn’t exist anymore",
@@ -1284,6 +1284,15 @@
     "source": "X",
     "link": "https://x.com/techleadhd/status/1947302224918610018",
     "archivalLink": "https://imgur.com/a/mnRg4SL",
+    "isWebpageUp": true
+    },
+    {
+    "date": "2025-07-23",
+    "statement": "Billions of dollars poured into developing a dead ghost chain",
+    "author": "Udi Wertheimer",
+    "source": "X",
+    "link": "https://x.com/udiWertheimer/status/1947805148413337648",
+    "archivalLink": "https://imgur.com/a/pcVFUg4",
     "isWebpageUp": true
     }
 ]
