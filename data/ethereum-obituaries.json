@@ -486,11 +486,11 @@
       "isWebpageUp": true
     },
     {
-      "date": "2021-03-13",
+      "date": "2021-01-03",
       "statement": "Rise of Layer 2s Spells End for Ethereum",
       "author": "Eden Yago",
       "source": "Coindesk",
-      "link": "https://www.coindesk.com/rise-of-layer-2s-altcoins-like-ethereum",
+      "link": "https://web.archive.org/web/20221001110002/https://www.coindesk.com/markets/2021/01/03/the-rise-of-layer-2s-spells-end-for-altcoins/",
       "archivalLink": "https://web.archive.org/web/20221001110002/https://www.coindesk.com/markets/2021/01/03/the-rise-of-layer-2s-spells-end-for-altcoins/",
       "isWebpageUp": true
     },
@@ -1330,6 +1330,15 @@
     "source": "X",
     "link": "https://x.com/SigmaSquared_/status/1958232779801436434",
     "archivalLink": "https://imgur.com/a/uvGD9jI",
+    "isWebpageUp": true
+    },
+    {
+    "date": "2025-08-29",
+    "statement": "Solana will flip ETH.",
+    "author": "Fred Krueger",
+    "source": "X",
+    "link": "https://x.com/SigmaSquared_/status/1958232779801436434",
+    "archivalLink": "https://imgur.com/a/kbjhtZU",
     "isWebpageUp": true
     }
 ]
