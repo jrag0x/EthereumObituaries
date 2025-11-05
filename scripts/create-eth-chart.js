@@ -112,7 +112,7 @@ function createChart(priceData, obituariesData) {
             min: minDate,
             // Set tickInterval to one year in milliseconds
             tickInterval: 365 * 24 * 3600 * 1000,
-            startOnTick: true,
+            startOnTick: false,
             endOnTick: false,
             tickPositioner: function () {
                 // Create an array of dates for the 1st of January of each year
