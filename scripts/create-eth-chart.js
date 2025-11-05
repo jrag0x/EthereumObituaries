@@ -43,10 +43,9 @@ function createChart(priceData, obituariesData) {
         };
     });
 
-    // Determine the earliest date for the x-axis range
+    // Determine the earliest date for the x-axis range - always use the first price data point
     const earliestPriceDate = priceData.length ? Date.parse(priceData[0].date) : null;
-    const earliestObitDate = obituariesData.length ? Math.min(...obituariesData.map(d => Date.parse(d.date))) : null;
-    const minDate = earliestObitDate ? Math.min(earliestPriceDate, earliestObitDate) : earliestPriceDate;
+    const minDate = earliestPriceDate;
 
     // Fetch latest ETH price from CoinGecko API
     async function fetchLatestPrice() {
