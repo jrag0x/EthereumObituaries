@@ -1023,7 +1023,7 @@
     "source": "X",
     "link": "https://x.com/techleadhd/status/1878879873563017451",
     "archivalLink": "https://i.imgur.com/Y1rLODy.png",
-    "isWebpageUp": true
+    "isWebpageUp": false
   },
   {
     "date": "2025-01-14",
@@ -1402,6 +1402,33 @@
     "source": "X",
     "link": "https://x.com/DeanEigenmann/status/1979229652578107401",
     "archivalLink": "https://imgur.com/a/rWPZXJW",
+    "isWebpageUp": true
+    },
+    {
+    "date": "2025-10-25",
+    "statement": "Then Ethereum will die",
+    "author": "MacBrennan",
+    "source": "X",
+    "link": "https://x.com/macbrennan_cc/status/1982109307962343791",
+    "archivalLink": "https://imgur.com/a/kLthV9a",
+    "isWebpageUp": true
+    },
+    {
+    "date": "2025-10-30",
+    "statement": "Why I'm Short $1M of ETH (It's Over)",
+    "author": "Taiki Maeda",
+    "source": "X/Youtube",
+    "link": "https://x.com/TaikiMaeda2/status/1984021731250729318?t=nmB7JzRHC1aFzZvchu3b-g&s=09",
+    "archivalLink": "https://imgur.com/a/9X83vQf",
+    "isWebpageUp": true
+    },
+    {
+    "date": "2025-11-03",
+    "statement": "Ethereum is collapsing/As ETH goes to 0",
+    "author": "TechLead",
+    "source": "X",
+    "link": "https://x.com/techleadhd/status/1985239440290185227",
+    "archivalLink": "https://imgur.com/a/Z6TNBUO",
     "isWebpageUp": true
     }
 ]
