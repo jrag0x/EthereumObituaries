@@ -15,12 +15,10 @@ async function fetchData() {
 
         const priceResponse = await fetch(`data/ethereum-prices.json?t=${timestamp}&n=${cacheBuster}`, options);
         const priceData = await priceResponse.json();
-        console.log('Latest price entry:', priceData[priceData.length - 1]);
 
         const obituariesResponse = await fetch(`data/ethereum-obituaries.json?t=${timestamp}&n=${cacheBuster}`, options);
         const obituariesData = await obituariesResponse.json();
 
-        // Validate data
         if (!Array.isArray(priceData) || priceData.length === 0) {
             console.error('Invalid or empty price data');
             return null;
@@ -40,37 +38,53 @@ async function init() {
         return;
     }
     const { priceData, obituariesData } = data;
-    createChart(priceData, obituariesData);
-    renderTimeline(obituariesData, priceData);
 
-    // Update the number of obituaries in the sentence
-    const obituariesCount = obituariesData.length;
+    createChart(priceData, obituariesData);
+    initTimelineFilter(obituariesData, priceData); // does the initial timeline render
+
     const countElement = document.querySelector('.obituaries-count');
-    countElement.textContent = `${obituariesCount} times`;
+    if (countElement) countElement.textContent = `${obituariesData.length} times`;
 }
 
-// Info icon tooltip functionality
-document.addEventListener('DOMContentLoaded', function() {
+/* Keyboard- and pointer-accessible info tooltip, clamped to the viewport. */
+document.addEventListener('DOMContentLoaded', function () {
     const infoIcon = document.querySelector('.info-icon');
     const infoTooltip = document.getElementById('info-tooltip');
+    if (!infoIcon || !infoTooltip) return;
 
-    if (infoIcon && infoTooltip) {
-        infoIcon.addEventListener('mouseenter', function(e) {
-            infoTooltip.style.display = 'block';
-            const iconRect = infoIcon.getBoundingClientRect();
-            infoTooltip.style.left = `${iconRect.right + 10}px`;
-            infoTooltip.style.top = `${iconRect.top - 5}px`;
-        });
-
-        infoIcon.addEventListener('mouseleave', function() {
-            infoTooltip.style.display = 'none';
-        });
+    function showTooltip() {
+        infoTooltip.style.display = 'block';
+        const iconRect = infoIcon.getBoundingClientRect();
+        const ttRect = infoTooltip.getBoundingClientRect();
+        const margin = 12;
+        let left = iconRect.right + 10;
+        // Flip/clamp so it never runs off the right edge.
+        if (left + ttRect.width > window.innerWidth - margin) {
+            left = Math.max(margin, window.innerWidth - ttRect.width - margin);
+        }
+        let top = iconRect.top - 5 + window.scrollY;
+        infoTooltip.style.left = `${left}px`;
+        infoTooltip.style.top = `${top}px`;
     }
+    function hideTooltip() {
+        infoTooltip.style.display = 'none';
+    }
+
+    infoIcon.addEventListener('mouseenter', showTooltip);
+    infoIcon.addEventListener('mouseleave', hideTooltip);
+    infoIcon.addEventListener('focus', showTooltip);
+    infoIcon.addEventListener('blur', hideTooltip);
+    infoIcon.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') hideTooltip();
+    });
 });
 
 init();
 
-// Add reload function to refresh data every minute
+// Periodic refresh: update ONLY the latest-price plot line — never rebuild
+// the chart or timeline (obituary/price JSON is static per deploy).
 setInterval(() => {
-    init();
+    if (window.__ethChart) {
+        updateLatestPrice(window.__ethChart);
+    }
 }, 60000);

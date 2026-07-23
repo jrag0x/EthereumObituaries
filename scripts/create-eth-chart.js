@@ -26,6 +26,12 @@ function createChart(priceData, obituariesData) {
 
 
 
+    // Guard against building a second chart instance on the same node.
+    if (window.__ethChart) {
+        try { window.__ethChart.destroy(); } catch (e) { /* noop */ }
+        window.__ethChart = null;
+    }
+
     const priceSeries = priceData.map(d => [Date.parse(d.date), d.price]);
     //const latestPrice = priceSeries[priceSeries.length - 1][1];
 
@@ -47,21 +53,12 @@ function createChart(priceData, obituariesData) {
     const earliestPriceDate = priceData.length ? Date.parse(priceData[0].date) : null;
     const minDate = earliestPriceDate;
 
-    // Fetch latest ETH price from CoinGecko API
-    async function fetchLatestPrice() {
-        try {
-            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
-            const data = await response.json();
-            return data.ethereum.usd;
-        } catch (error) {
-            console.error('Error fetching ETH price:', error);
-            return null;
-        }
-    }
+    const bgColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--bg').trim() || '#1b1b1e';
 
-    Highcharts.chart('ethChart', {
+    const chart = Highcharts.chart('ethChart', {
         chart: {
-            backgroundColor: '#222222',
+            backgroundColor: bgColor,
             events: {
                 load: function () {
                     this.series[0].graph.attr({
@@ -166,6 +163,7 @@ function createChart(priceData, obituariesData) {
         },
         tooltip: {
             useHTML: true,
+            outside: true,
             backgroundColor: '#333333',
             borderRadius: 5,
             style: {
@@ -185,11 +183,13 @@ function createChart(priceData, obituariesData) {
                 if (this.series.name === 'Ethereum Price') {
                     return false; // Disable tooltip for Ethereum Price
                 } else {
-                    const price = this.point.y !== null ? `<div class="highcharts-tooltip-price">$${this.point.y.toFixed(2)} ETH</div>` : '<div class="highcharts-tooltip-price">N/A</div>';
+                    const priceText = this.point.y !== null ? `$${this.point.y.toFixed(2)} ETH` : 'N/A';
                     return `
                         <div class="highcharts-tooltip-box">
-                            ${price}
-                            <div class="highcharts-tooltip-date">${Highcharts.dateFormat('%Y-%m-%d', displayDate)}</div>
+                            <div class="highcharts-tooltip-header">
+                                <span class="highcharts-tooltip-date">${Highcharts.dateFormat('%Y-%m-%d', displayDate)}</span>
+                                <span class="highcharts-tooltip-price">${priceText}</span>
+                            </div>
                             <div class="highcharts-tooltip-statement">
                                 <a href="${this.point.link}" target="_blank">${this.point.statement}</a>
                             </div>
@@ -269,27 +269,47 @@ function createChart(priceData, obituariesData) {
                 });
             }
         };
-        // Update the chart plot line with the fetched ETH price
-        fetchLatestPrice().then(latestPrice => {
-            if (latestPrice) {
-                chart.yAxis[0].update({
-                    plotLines: [{
-                        id: 'latest-price',
-                        color:'#FFA500',
-                        width: 1,
-                        dashStyle: 'shortdash',
-                        value: latestPrice,
-                        label: {
-                            text: `$${latestPrice.toFixed(2)}`,
-                            align: 'left',
-                            style: {
-                                color: '#FFA500',
-                                fontWeight: 'bold'
-                            }
-                        }
-                    }]
-                });
+        // Seed the "latest price" plot line.
+        updateLatestPrice(chart);
+    });
+
+    window.__ethChart = chart;
+    return chart;
+}
+
+// Fetch the latest ETH price from CoinGecko.
+async function fetchLatestPrice() {
+    try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+        const data = await response.json();
+        return data.ethereum.usd;
+    } catch (error) {
+        console.error('Error fetching ETH price:', error);
+        return null;
+    }
+}
+
+// Refresh ONLY the dashed "latest price" plot line on an existing chart.
+// Used for the periodic refresh so we never rebuild the whole chart.
+async function updateLatestPrice(chart) {
+    if (!chart || chart.renderer === undefined) return;
+    const latestPrice = await fetchLatestPrice();
+    if (!latestPrice) return;
+    chart.yAxis[0].update({
+        plotLines: [{
+            id: 'latest-price',
+            color: '#FFA500',
+            width: 1,
+            dashStyle: 'shortdash',
+            value: latestPrice,
+            label: {
+                text: `$${latestPrice.toFixed(2)}`,
+                align: 'left',
+                style: {
+                    color: '#FFA500',
+                    fontWeight: 'bold'
+                }
             }
-        });
+        }]
     });
 }

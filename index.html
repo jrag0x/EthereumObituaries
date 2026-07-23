@@ -12,7 +12,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/ETH_Obituaries_logo.png">
     <title>Ethereum Obituaries</title>
     <link rel="stylesheet" href="styles/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="title-container">
@@ -40,19 +42,27 @@
         </svg>
     </div>
     <div id="body-container">
-        <div id="chart-title" class="chart-title">Ethereum has died <span class="obituaries-count"></span> so far.<span class="info-icon">?</span></div>
-        <div id="info-tooltip" class="info-tooltip">
+        <div id="chart-title" class="chart-title">Ethereum has died <span class="obituaries-count"></span> so far.<button type="button" class="info-icon" aria-label="What counts as a death?" aria-describedby="info-tooltip">?</button></div>
+        <div id="info-tooltip" class="info-tooltip" role="tooltip">
             <strong>Current definition of "Death" in the context of this website</strong><br><br>
             An entry should explicitly state that the Ethereum project is failing, ending, over, killed, outclassed, dead or that the ETH asset is overtly bearish, going to crash, about to be flippened or going to zero.
         </div>
-        <div id="ethChart" style="height: 600px; width: 100%;"></div>
+        <div id="ethChart" role="img" aria-label="Logarithmic chart of Ethereum's price over time, overlaid with tombstone markers at each date Ethereum was declared dead."></div>
 
         <div class="add-obituary-button-container">
             <a href="https://github.com/jrag0x/EthereumObituaries/blob/main/Contribution.md" target="_blank" class="add-obituary-button">Add a missing obituary</a>
         </div>
 
         <h2 class="timeline-title">Timeline</h2>
-        <!-- Timeline Title -->
+        <div class="timeline-controls">
+            <label class="visually-hidden" for="timeline-search">Search obituaries</label>
+            <input type="search" id="timeline-search" placeholder="Search statement or author…" autocomplete="off">
+            <label class="visually-hidden" for="timeline-year">Filter by year</label>
+            <select id="timeline-year"><option value="">All years</option></select>
+            <label class="visually-hidden" for="timeline-source">Filter by source</label>
+            <select id="timeline-source"><option value="">All sources</option></select>
+        </div>
+        <div id="timeline-result-count" class="timeline-result-count" aria-live="polite"></div>
         <div id="timeline" class="timeline">
             <div class="timeline-background-line"></div>
         </div>
@@ -74,9 +84,11 @@
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="scripts/create-eth-chart.js"></script>
-    <script src="scripts/initialize-app.js"></script>
     <script src="scripts/render-timeline.js"></script>
+    <script src="scripts/timeline-filter.js"></script>
+    <script src="scripts/initialize-app.js"></script>
 
 </body>
 </html>
