@@ -51,6 +51,10 @@
 
         <div class="add-obituary-button-container">
             <a href="https://github.com/jrag0x/EthereumObituaries/blob/main/Contribution.md" target="_blank" class="add-obituary-button">Add a missing obituary</a>
+            <a href="#donate" class="donate-button" data-donate-trigger aria-label="Donate ETH to the funeral budget on Ethereum mainnet" aria-describedby="donate-tooltip">
+                <span aria-hidden="true">🪙</span> Donate to Funeral Budget
+                <span id="donate-tooltip" class="donate-tooltip" role="tooltip">Helps cover this site's hosting costs.</span>
+            </a>
         </div>
 
         <h2 class="timeline-title">Timeline</h2>
@@ -79,8 +83,49 @@
                 <img src="assets/twitter-icon.svg" alt="Twitter" class="footer-icon">
                 <a href="https://twitter.com/Jrag0x" target="_blank" rel="noopener noreferrer">Tinkered by Jrag.eth</a>
             </span>
+            <span class="footer-divider">|</span>
+            <a href="#donate" data-donate-trigger aria-label="Donate ETH to the funeral budget on Ethereum mainnet">
+                <span class="footer-donate-icon" aria-hidden="true">🪙</span>Donate
+            </a>
         </div>
     </footer>
+
+    <dialog id="donate-dialog" class="donate-dialog" aria-labelledby="donate-dialog-title">
+        <form method="dialog" class="donate-form">
+            <button type="submit" value="cancel" class="donate-dialog-close" aria-label="Close donation window">×</button>
+            <h2 id="donate-dialog-title">Support the funeral budget</h2>
+            <div id="donate-amount-step">
+                <p>Enter an amount, then choose any compatible Ethereum wallet.</p>
+                <label for="donate-amount">Donation amount</label>
+                <div class="donate-amount-field">
+                    <input type="text" id="donate-amount" inputmode="decimal" autocomplete="off" placeholder="0.01" aria-describedby="donate-status">
+                    <span>ETH</span>
+                </div>
+            </div>
+            <p id="donate-status" class="donate-status" aria-live="polite"></p>
+            <div id="donate-wallet-step" class="donate-wallet-step" hidden>
+                <p id="donate-wallet-prompt">Choose an installed wallet:</p>
+                <div id="donate-wallet-list" class="donate-wallet-list"></div>
+                <div class="donate-fallback">
+                    <p>No browser wallet?</p>
+                    <div id="donate-qr" class="donate-qr" aria-label="Ethereum payment QR code"></div>
+                    <p>Scan with a mobile wallet, or use one of the options below.</p>
+                    <div class="donate-fallback-actions">
+                        <a id="donate-open-wallet" class="donate-secondary-button" href="#">Open wallet</a>
+                        <button type="button" id="donate-copy-address" class="donate-secondary-button">Copy address</button>
+                    </div>
+                </div>
+            </div>
+            <div class="donate-dialog-actions" id="donate-amount-actions">
+                <button type="submit" value="cancel" class="donate-cancel-button">Cancel</button>
+                <button type="submit" value="default" id="donate-submit" class="donate-submit-button">Choose wallet</button>
+            </div>
+            <div class="donate-dialog-actions" id="donate-wallet-actions" hidden>
+                <button type="button" id="donate-back" class="donate-cancel-button">Back</button>
+                <button type="submit" value="cancel" class="donate-cancel-button">Close</button>
+            </div>
+        </form>
+    </dialog>
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -89,6 +134,8 @@
     <script src="scripts/render-timeline.js"></script>
     <script src="scripts/timeline-filter.js"></script>
     <script src="scripts/initialize-app.js"></script>
+    <script src="scripts/vendor/qrcode.js"></script>
+    <script src="scripts/donate.js"></script>
 
 </body>
 </html>

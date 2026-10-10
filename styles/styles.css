@@ -243,25 +243,265 @@ a {
 .highcharts-tooltip-source { color: var(--ink-faint); }
 
 /* ============================================================
-   Add-obituary button (solid accent, not gradient)
+   Primary actions
    ============================================================ */
 .add-obituary-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s3);
   text-align: center;
   margin: var(--s5) 0;
 }
-.add-obituary-button {
+.add-obituary-button,
+.donate-button {
   display: inline-block;
   padding: var(--s2) var(--s4);
-  background: var(--accent-grad);
-  color: #201200;
   text-decoration: none;
   border-radius: var(--radius-pill);
   font-weight: 700;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
-.add-obituary-button:focus-visible {
+.add-obituary-button {
+  background: var(--accent-grad);
+  color: #201200;
+}
+.donate-button {
+  position: relative;
+  background: rgba(125, 139, 236, 0.24);
+  color: #f7f7ff;
+  border: 1px solid rgba(145, 157, 244, 0.72);
+}
+.donate-button:hover {
+  background: rgba(125, 139, 236, 0.34);
+  border-color: var(--eth);
+}
+.donate-tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  z-index: 10;
+  width: max-content;
+  max-width: min(260px, calc(100vw - 32px));
+  padding: var(--s2) var(--s3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #303036;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.35;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  visibility: hidden;
+}
+.donate-button:hover .donate-tooltip,
+.donate-button:focus-visible .donate-tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  visibility: visible;
+}
+.add-obituary-button:focus-visible,
+.donate-button:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
+}
+
+/* Donation amount dialog */
+.donate-dialog {
+  width: min(400px, calc(100vw - 32px));
+  padding: 0;
+  border: 1px solid var(--eth-border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.donate-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.68);
+}
+.donate-form {
+  position: relative;
+  padding: var(--s5);
+}
+.donate-form h2 {
+  margin: 0 32px var(--s2) 0;
+  color: var(--eth);
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.donate-form p {
+  margin: 0 0 var(--s4);
+  color: var(--ink-muted);
+  line-height: 1.45;
+}
+.donate-form label {
+  display: block;
+  margin-bottom: var(--s2);
+  font-size: 14px;
+  font-weight: 700;
+}
+.donate-dialog-close {
+  position: absolute;
+  top: var(--s3);
+  right: var(--s3);
+  padding: 2px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 24px;
+  cursor: pointer;
+}
+.donate-amount-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.donate-amount-field:focus-within {
+  border-color: var(--eth);
+  outline: 2px solid var(--eth-border);
+}
+.donate-amount-field input {
+  min-width: 0;
+  flex: 1;
+  padding: 12px var(--s3);
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 18px;
+}
+.donate-amount-field span {
+  padding-right: var(--s3);
+  color: var(--ink-muted);
+  font-weight: 700;
+}
+.donate-form .donate-status {
+  min-height: 1.4em;
+  margin-bottom: var(--s3);
+  color: var(--accent);
+  font-size: 13px;
+}
+.donate-wallet-step > p {
+  margin-bottom: var(--s2);
+}
+.donate-wallet-list {
+  display: grid;
+  gap: var(--s2);
+  margin-bottom: var(--s4);
+}
+.donate-wallet-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.donate-wallet-button:hover {
+  border-color: var(--eth);
+  background: var(--eth-soft);
+}
+.donate-wallet-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+}
+.donate-fallback {
+  padding-top: var(--s3);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.donate-fallback .donate-qr {
+  width: min(210px, 70vw);
+  margin: 0 auto var(--s3);
+  padding: var(--s2);
+  border-radius: var(--radius);
+  background: #fff;
+  line-height: 0;
+}
+.donate-qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.donate-fallback p {
+  margin-bottom: var(--s3);
+  font-size: 13px;
+}
+.donate-fallback-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}
+.donate-secondary-button {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid var(--eth-border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--eth);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.donate-secondary-button:hover {
+  border-color: var(--eth);
+  background: var(--eth-soft);
+}
+.donate-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--s2);
+}
+.donate-dialog-actions button {
+  padding: 10px var(--s3);
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+[hidden] {
+  display: none !important;
+}
+.donate-cancel-button {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--ink-muted);
+}
+.donate-submit-button {
+  border: 1px solid var(--eth);
+  background: var(--eth);
+  color: #11121a;
+}
+.donate-submit-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+.donate-dialog button:focus-visible,
+.donate-dialog input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }
 
 /* ============================================================
@@ -483,6 +723,9 @@ a.timeline-entry:hover .timeline-statement > span:first-child {
   height: 16px;
   margin-right: var(--s2);
 }
+.footer-donate-icon {
+  margin-right: var(--s1);
+}
 .footer-divider {
   margin: 0 var(--s3);
   color: #666;
@@ -492,14 +735,20 @@ a.timeline-entry:hover .timeline-statement > span:first-child {
    Motion (respect reduced-motion)
    ============================================================ */
 @media (prefers-reduced-motion: no-preference) {
-  .add-obituary-button {
+  .add-obituary-button,
+  .donate-button {
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .add-obituary-button:hover {
+  .donate-tooltip {
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+  .add-obituary-button:hover,
+  .donate-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
   }
-  .add-obituary-button:active {
+  .add-obituary-button:active,
+  .donate-button:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   }
