@@ -1,18 +1,6 @@
-/* Resolve the display date + year for an obituary, honoring the two
-   hard-coded 2014 entries that predate reliable dating. */
+/* Resolve the display date and year from the canonical dataset. */
 function resolveObituary(obituary) {
-    let displayDate = obituary.date;
-    let year = new Date(obituary.date).getFullYear();
-
-    if (obituary.statement === "Sidechains: the coming death of altcoins and ethereum.") {
-        displayDate = "2014-04-09";
-        year = 2014;
-    }
-    if (obituary.statement === "Why Ethereum is dead in the water.") {
-        displayDate = "2014-10-15";
-        year = 2014;
-    }
-    return { displayDate, year };
+    return { displayDate: obituary.date, year: Number(obituary.date.slice(0, 4)) };
 }
 
 /* Render a (possibly filtered) list of obituaries into the timeline.
@@ -109,7 +97,9 @@ function renderTimeline(obituariesData, priceData) {
         const priceEntry = priceData.find(p => p.date === obituary.date);
         const price = document.createElement('div');
         price.className = 'timeline-price';
-        price.textContent = priceEntry ? `$${priceEntry.price.toFixed(2)} ETH` : 'N/A';
+        price.textContent = obituary.date < '2015-07-30'
+            ? 'Pre-launch · No market price'
+            : priceEntry ? `$${priceEntry.price.toFixed(2)} ETH` : 'N/A';
 
         entry.appendChild(date);
         entry.appendChild(statement);

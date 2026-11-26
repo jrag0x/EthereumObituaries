@@ -3,6 +3,8 @@ We appreciate your interest in contributing to the Ethereum Obituaries project. 
 
 ## Part 1: How to Add a New Obituary
 
+You can [submit an obituary using the GitHub issue form](https://github.com/jrag0x/EthereumObituaries/issues/new?template=obituary.yml), or add it yourself in a pull request using the steps below.
+
 ### Guidelines for contributing new obituaries
 - **Verify the content:** Ensure that the link you want to add explicitly states that the Ethereum project is failing, ending, over, killed, outclassed, dead or that the ETH asset is overtly bearish, going to crash, about to be flippened or going to zero either in the post title or in its contents.
 
@@ -12,13 +14,13 @@ We appreciate your interest in contributing to the Ethereum Obituaries project. 
 
 - **Twitter/X/Social Media posts:** For Twitter posts to be included, the account must have more than 5000 followers at the time of the post.
 
-- **Link validity:** Ensure the provided link is working and points to the original source. Replace it by a screenshot if you fear it might get removed/archived.
+- **Link validity:** Provide a working link to the original source. Include an archived copy or screenshot as well if you fear it might be removed.
 
 ### Where to add new obituaries
 1. Fork the repository to your GitHub account.
 2. Clone your forked repository locally.
 3. Create a new branch for your contribution.
-4. Locate the `ethereum-obituaries.json` file in the `data`repository.
+4. Open `data/ethereum-obituaries.json`.
 5. Add a new entry to the JSON file in the following format:
    ```json
    {
@@ -28,9 +30,10 @@ We appreciate your interest in contributing to the Ethereum Obituaries project. 
      "source": "Publication or platform name",
      "link": "URL to the original article or post",
      "archivalLink": "URL to an archived version of the page (e.g., using Wayback Machine or a screenshot hosted on imgur)",
-     "isWebpageUp": true,
+     "isWebpageUp": true
    }
-6. Ensure the entry is in the correct chronological order within the JSON file.
+   ```
+6. Insert the entry in chronological order using the publication date, including for pre-launch statements.
 7. Commit your changes and push to your forked repository.
 8. Create a Pull Request (PR) to the main repository.
 

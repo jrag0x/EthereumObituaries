@@ -35,12 +35,13 @@ function createChart(priceData, obituariesData) {
     const priceSeries = priceData.map(d => [Date.parse(d.date), d.price]);
     //const latestPrice = priceSeries[priceSeries.length - 1][1];
 
-    // Include all obituaries, even those without corresponding price data
-    const obituarySeries = obituariesData.map(d => {
-        const priceEntry = priceData.find(p => p.date === d.date);
+    // Only plot quotations that have a valid historical price.
+    const pricesByDate = new Map(priceData.filter(p => Number.isFinite(p.price) && p.price > 0)
+        .map(p => [p.date, p.price]));
+    const obituarySeries = obituariesData.filter(d => pricesByDate.has(d.date)).map(d => {
         return {
             x: Date.parse(d.date),
-            y: priceEntry ? priceEntry.price : null,
+            y: pricesByDate.get(d.date),
             statement: d.statement,
             author: d.author,
             source: d.source,
@@ -55,6 +56,16 @@ function createChart(priceData, obituariesData) {
 
     const bgColor = getComputedStyle(document.documentElement)
         .getPropertyValue('--bg').trim() || '#1b1b1e';
+
+    function updateWatermark(chart) {
+        if (chart.watermark) {
+            const bbox = chart.watermark.getBBox();
+            chart.watermark.attr({
+                x: chart.plotLeft + (chart.plotWidth / 2),
+                y: chart.plotTop + (chart.plotHeight / 2) + (bbox.height / 4)
+            });
+        }
+    }
 
     const chart = Highcharts.chart('ethChart', {
         chart: {
@@ -80,11 +91,11 @@ function createChart(priceData, obituariesData) {
                         .add();
 
                     // Position the watermark
-                    this.watermarkUpdate();
+                    updateWatermark(this);
                 },
                 redraw: function() {
                     // Reposition the watermark on redraw
-                    this.watermarkUpdate();
+                    updateWatermark(this);
                 }
             }
         },
@@ -172,18 +183,14 @@ function createChart(priceData, obituariesData) {
                 color: '#ffffff'
             },
             formatter: function() {
-                let displayDate = this.x;
-                if (this.point.statement === "Sidechains: the coming death of altcoins and ethereum.") {
-                    displayDate = Date.parse("2014-04-09");
-                }
-                if (this.point.statement === "Why Ethereum is dead in the water.") {
-                    displayDate = Date.parse("2014-10-15");
-                }
+                // Highcharts 12 and later bind this to the point itself.
+                const point = this.point || this;
+                const displayDate = point.x;
 
-                if (this.series.name === 'Ethereum Price') {
+                if (point.series.name === 'Ethereum Price') {
                     return false; // Disable tooltip for Ethereum Price
                 } else {
-                    const priceText = this.point.y !== null ? `$${this.point.y.toFixed(2)} ETH` : 'N/A';
+                    const priceText = point.y !== null ? `$${point.y.toFixed(2)} ETH` : 'N/A';
                     return `
                         <div class="highcharts-tooltip-box">
                             <div class="highcharts-tooltip-header">
@@ -191,11 +198,11 @@ function createChart(priceData, obituariesData) {
                                 <span class="highcharts-tooltip-price">${priceText}</span>
                             </div>
                             <div class="highcharts-tooltip-statement">
-                                <a href="${this.point.link}" target="_blank">${this.point.statement}</a>
+                                <a href="${point.link}" target="_blank">${point.statement}</a>
                             </div>
                             <div class="author-source-container">
-                                <span class="highcharts-tooltip-author">— ${this.point.author}</span>
-                                <span class="highcharts-tooltip-source">(${this.point.source})</span>
+                                <span class="highcharts-tooltip-author">— ${point.author}</span>
+                                <span class="highcharts-tooltip-source">(${point.source})</span>
                             </div>
                         </div>`;
                 }
@@ -206,6 +213,7 @@ function createChart(priceData, obituariesData) {
                 name: 'Ethereum Price',
                 data: priceSeries,
                 type: 'line',
+                animation: false,
                 color: {
                     linearGradient: { x1: 0, y1: 0, x2: 1, y2: 0 },
                     stops: [
@@ -260,15 +268,6 @@ function createChart(priceData, obituariesData) {
             enabled: false
         }
     }, function(chart) { // on complete
-        chart.watermarkUpdate = function() {
-            if (this.watermark) {
-                var bbox = this.watermark.getBBox();
-                this.watermark.attr({
-                    x: this.plotLeft + (this.plotWidth / 2),
-                    y: this.plotTop + (this.plotHeight / 2) + (bbox.height / 4)
-                });
-            }
-        };
         // Seed the "latest price" plot line.
         updateLatestPrice(chart);
     });

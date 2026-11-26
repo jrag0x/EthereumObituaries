@@ -39,11 +39,16 @@ async function init() {
     }
     const { priceData, obituariesData } = data;
 
-    createChart(priceData, obituariesData);
-    initTimelineFilter(obituariesData, priceData); // does the initial timeline render
-
     const countElement = document.querySelector('.obituaries-count');
     if (countElement) countElement.textContent = `${obituariesData.length} times`;
+    initTimelineFilter(obituariesData, priceData);
+    if (typeof Highcharts !== 'undefined') {
+        createChart(priceData, obituariesData);
+    } else {
+        const container = document.getElementById('ethChart');
+        container.textContent = 'The price chart could not load. Browse the obituaries below.';
+        container.style.height = 'auto';
+    }
 }
 
 /* Keyboard- and pointer-accessible info tooltip, clamped to the viewport. */

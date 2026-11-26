@@ -8,8 +8,8 @@
     <meta property="og:image" content="https://ethereumobituaries.com/assets/ETH_Obituaries_title.png">
     <meta property="og:url" content="https://ethereumobituaries.com">
     <meta property="og:type" content="website">
-    <link rel="icon" type="image/png" href="assets/ETH_Obituaries_logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/ETH_Obituaries_logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
     <title>Ethereum Obituaries</title>
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,7 +50,7 @@
         <div id="ethChart" role="img" aria-label="Logarithmic chart of Ethereum's price over time, overlaid with tombstone markers at each date Ethereum was declared dead."></div>
 
         <div class="add-obituary-button-container">
-            <a href="https://github.com/jrag0x/EthereumObituaries/blob/main/Contribution.md" target="_blank" class="add-obituary-button">Add a missing obituary</a>
+            <a href="https://github.com/jrag0x/EthereumObituaries/issues/new?template=obituary.yml" target="_blank" rel="noopener noreferrer" class="add-obituary-button">Add a missing obituary</a>
             <a href="#donate" class="donate-button" data-donate-trigger aria-label="Donate ETH to the funeral budget on Ethereum mainnet" aria-describedby="donate-tooltip">
                 <span aria-hidden="true">🪙</span> Donate to Funeral Budget
                 <span id="donate-tooltip" class="donate-tooltip" role="tooltip">Helps cover this site's hosting costs.</span>
@@ -127,9 +127,8 @@
         </form>
     </dialog>
 
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="scripts/vendor/highcharts-13.1.1/highcharts.js"></script>
+    <script src="scripts/vendor/highcharts-13.1.1/accessibility.js"></script>
     <script src="scripts/create-eth-chart.js"></script>
     <script src="scripts/render-timeline.js"></script>
     <script src="scripts/timeline-filter.js"></script>

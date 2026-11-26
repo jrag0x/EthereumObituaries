@@ -1,0 +1,31 @@
+name: Submit an obituary
+description: Suggest an Ethereum obituary for the timeline.
+title: "Obituary: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check the existing timeline for duplicates and read the [contribution guidelines](https://github.com/jrag0x/EthereumObituaries/blob/main/Contribution.md) before submitting.
+  - type: input
+    id: source-url
+    attributes:
+      label: Original source URL
+      description: Link to the original article or post.
+      placeholder: https://example.com/article
+    validations:
+      required: true
+  - type: textarea
+    id: exact-quote
+    attributes:
+      label: Exact quote
+      description: Copy the exact statement predicting Ethereum's demise or ETH's collapse.
+    validations:
+      required: true
+  - type: input
+    id: archive-url
+    attributes:
+      label: Archive or screenshot URL
+      description: Optionally, link to an archived copy or screenshot of the source.
+      placeholder: https://web.archive.org/...
+    validations:
+      required: false
